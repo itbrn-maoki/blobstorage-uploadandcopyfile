@@ -11,7 +11,7 @@ namespace BlobStorageUploadAndCopyFile
 
         static void Main(string[] args)
         {
-            args = SetArgDummy(); // TODO debug
+            //args = SetArgDummy(); // TODO debug
 
             if (!IsValid(args))
             {
@@ -28,7 +28,42 @@ namespace BlobStorageUploadAndCopyFile
 
         private static bool IsValid(string[] args)
         {
-            return true; // TODO あとで
+            if(args.Length != 3)
+            {
+                Console.WriteLine("コマンドライン引数がたりません。");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(args[0]))
+            {
+                Console.WriteLine("第1引数にアップロードするファイルを指定してください。");
+                return false;
+            }
+
+            if (!File.Exists(args[0])){
+                Console.WriteLine("第1引数に指定されたファイルが存在しません。");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(args[1]))
+            {
+                Console.WriteLine("第2引数にblob storageの格納先のパスを指定してください。");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(args[2]))
+            {
+                Console.WriteLine("第3引数にファイルの数を指定してください。");
+                return false;
+            }
+
+            if(!int.TryParse(args[2], out int num))
+            {
+                Console.WriteLine("第3引数にファイルの数を数字で指定してください。");
+                return false;
+            }
+
+            return true;
         }
 
         static string[] SetArgDummy()
